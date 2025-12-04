@@ -1,0 +1,102 @@
+.Design, Develop and Implement a menu driven Program in C for the following operations onSingly Linked List (SLL) of Student Data with the fields: USN, Name, Programme, Sem, PhNo:
+
+a) Create a SLL of N Students Data by using front insertion.
+b) Display the status of SLL and count the number of nodes in it.
+c) Perform Insertion / Deletion at End of SLL.
+d) Perform Insertion / Deletion at Front of SLL(Demonstration of stack).
+e) Exit
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    char usn[20], name[20], prog[20], ph[15];
+    int sem;
+    struct node *next;
+};
+typedef struct node *NODE;
+
+NODE create() {
+    NODE t = (NODE)malloc(sizeof(struct node));
+    printf(" Enter USN Name Prog Sem PhNo: ");
+    scanf("%s %s %s %d %s", t->usn, t->name, t->prog, &t->sem, t->ph);
+    t->next = NULL;
+    return t;
+}
+
+NODE ins_front(NODE h)
+ { 
+NODE  t = create(); 
+t->next = h; 
+return t; 
+}
+NODE ins_end(NODE h)
+ { 
+NODE  t = create(), c = h;
+ if (!h) 
+return t; 
+while (c->next)
+ c = c->next; 
+c->next = t; 
+return h;
+ }
+NODE del_front(NODE h) 
+{ 
+if (!h) 
+return NULL; 
+NODE  t = h;
+ h = h->next; 
+free(t); 
+return h; 
+}
+NODE del_end(NODE h) 
+{ 
+if (!h)
+ return NULL; 
+if (!h->next) 
+{
+ free(h); 
+return NULL;
+ }
+ NODE c = h; 
+while (c->next->next) 
+c = c->next; 
+free(c->next); 
+c->next = NULL; 
+return h; 
+}
+
+void display(NODE  h)
+ {
+    int c = 0; 
+if (!h) 
+{ 
+printf("Empty\n");
+ return; 
+}
+    printf("\nUSN\tName\tProg\tSem\tPhNo\n");
+    for (; h; h = h->next, c++)
+ printf("%s\t%s\t%s\t%d\t%s\n", h->usn, h->name, h->prog, h->sem, h->ph);
+    printf("Count=%d\n", c);
+}
+
+int main() {
+    NODE h = NULL; int ch, n, i;
+    for (;;) {
+        printf("\n1.Create 2.Display 3.InsEnd 4.DelEnd 5.InsFront 6.DelFront 7.Exit\n Enter Choice: ");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1: printf("Enter number of nodes: "); 
+        scanf("%d", &n); 
+       for (i = 0; i < n; i++) 
+          h = ins_front(h); 
+         break;
+            case 2: display(h); break;
+            case 3: h = ins_end(h); break;
+            case 4: h = del_end(h);
+                         printf(“The node is Deleted”); break;
+            case 5: h = ins_front(h); break;
+            case 6: h = del_front(h); 
+                       printf(“The node is Deleted”);  break;
+            case 7: exit(0);
+        } } }
